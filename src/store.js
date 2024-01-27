@@ -10,9 +10,16 @@ let store = new Vuex.Store({
   },
   mutations: {
     SET_CONTACTS(state, payload) {
-      console.log("state", state);
+      console.log("state", state, payload);
       state.contacts = payload;
     },
+    SORT_BY_NAME_TO_TOP(state) {
+      state.contacts.sort((a, b) => a.name.first.localeCompare(b.name.first));
+    },
+    SORT_BY_NAME_TO_BOTTOM(state) {
+      state.contacts.sort((a, b) => b.name.first.localeCompare(a.name.first));
+    },
+    // должна быть кнопка скидывающая сортировку или можно просто заного коллекцию просить но это как то не оч подход
   },
   actions: {
     GET_CONTACTS({ commit }) {

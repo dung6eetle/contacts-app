@@ -9,7 +9,7 @@
     <div class="row birthday">
       {{ getFullDate(row.dob) }}
     </div>
-    <div class="row email">{{ row.email }}</div>
+    <div @click="copy(row)" class="row email">{{ row.email }}</div>
     <div class="row phone">{{ row.phone }}</div>
     <div class="row location">{{ row.location.country }}</div>
     <div class="row nationality">{{ row.nat }}</div>
@@ -37,6 +37,9 @@ export default {
         "Age:" +
         age
       );
+    },
+    copy({ email }) {
+      this.$copyText(email).then(() => alert("COPY TEXT"));
     },
   },
 };
