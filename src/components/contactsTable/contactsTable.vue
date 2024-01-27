@@ -2,12 +2,7 @@
   <div class="contacts-table">
     <div class="header">
       <h5>Avatar</h5>
-      <h5>
-        Fullname
-        <SortByName title="Aa-Zz" :sort="sortByNameTop" />
-        <SortByName title="Zz-Aa" :sort="sortByNameBottom" />
-        <input type="text" v-model="name" placeholder="Searh By Name" />
-      </h5>
+      <h5>Fullname</h5>
       <h5>Birthday</h5>
       <h5>Email</h5>
       <h5>Phone</h5>
@@ -21,9 +16,7 @@
 </template>
 
 <script>
-import ContactRow from "./contactRow.vue";
-import { mapMutations } from "vuex";
-import SortByName from "../sorting/sortByName.vue";
+import ContactRow from "./ContactRow.vue";
 
 export default {
   props: {
@@ -33,7 +26,7 @@ export default {
     pageNumber: {
       type: Number,
     },
-    contacts: {
+    rows: {
       type: Array,
       default: () => {
         return [];
@@ -42,30 +35,16 @@ export default {
   },
   components: {
     ContactRow,
-    SortByName,
-    // PaginationComponent,
   },
   data() {
-    return {
-      name: "",
-    };
+    return {};
   },
   computed: {
-    rows() {
-      let from = (this.pageNumber - 1) * this.perPage;
-      let to = from + this.perPage;
-      return this.contacts.slice(from, to);
-    },
-  },
-  methods: {
-    ...mapMutations(["SORT_BY_NAME_TO_TOP", "SORT_BY_NAME_TO_BOTTOM"]),
-
-    sortByNameBottom() {
-      this.SORT_BY_NAME_TO_BOTTOM();
-    },
-    sortByNameTop() {
-      this.SORT_BY_NAME_TO_TOP();
-    },
+    // rows() {
+    //   let from = (this.pageNumber - 1) * this.perPage;
+    //   let to = from + this.perPage;
+    //   return this.contacts.slice(from, to);
+    // },
   },
 };
 </script>
