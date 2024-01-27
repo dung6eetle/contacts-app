@@ -6,7 +6,9 @@
     <div class="row fullname">
       {{ getFullName(row.name) }}
     </div>
-    <div class="row birthday">{{ row.dob.date }}</div>
+    <div class="row birthday">
+      {{ getFullDate(row.dob) }}
+    </div>
     <div class="row email">{{ row.email }}</div>
     <div class="row phone">{{ row.phone }}</div>
     <div class="row location">{{ row.location.country }}</div>
@@ -25,6 +27,16 @@ export default {
   methods: {
     getFullName({ title, first, last }) {
       return title + " " + first + " " + last;
+    },
+    getFullDate({ date, age }) {
+      return (
+        this.moment(date).format("dddd") +
+        " " +
+        this.moment(date).format("DD/MM/YYYY hh:mm a") +
+        " " +
+        "Age:" +
+        age
+      );
     },
   },
 };
