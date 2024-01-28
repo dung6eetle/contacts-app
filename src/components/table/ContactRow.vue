@@ -1,24 +1,24 @@
 <template>
   <div class="contact-row">
-    <div class="row avatar">
+    <div class="row">
       <img :src="row.picture.medium" />
     </div>
-    <div class="row fullname">
+    <div class="row">
       {{ getFullName(row.name) }}
     </div>
-    <div class="row birthday">
+    <div class="row">
       {{ getFullDate(row.dob) }}
     </div>
-    <div @click="copy(row)" class="row email">{{ row.email }}</div>
-    <div class="row phone">{{ row.phone }}</div>
-    <div class="row location">{{ row.location.country }}</div>
-    <div class="row nationality">{{ row.nat }}</div>
+    <div @click="copy(row.email)" class="row copy">{{ row.email }}</div>
+    <div @click="copy(row.phone)" class="row copy">{{ row.phone }}</div>
+    <div class="row">{{ row.location.country }}</div>
+    <div class="row">{{ row.nat }}</div>
   </div>
 </template>
 
 <script>
-import moment from "moment";
 import { getFullName } from "@/helpers/getFullName";
+import { getFullDate } from "@/helpers/getFullDate";
 
 export default {
   props: {
@@ -27,40 +27,33 @@ export default {
       default: () => ({}),
     },
   },
-  computed: {},
-
   methods: {
-    copy({ email }) {
-      this.$copyText(email).then(() => alert(`COPY: ${email}`));
+    copy(text) {
+      this.$copyText(text).then(() => alert(`COPY: ${text}`));
     },
     getFullName({ title, first, last }) {
-      return getFullName(
-        {
-          first,
-          last,
-        },
-        title
-      );
+      return getFullName({ first, last }, title);
     },
     getFullDate({ date, age }) {
-      return (
-        moment(date).format("dddd") +
-        " " +
-        moment(date).format("DD/MM/YYYY hh:mm a") +
-        " " +
-        "Age:" +
-        age
-      );
+      return getFullDate({ date, age });
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .contact-row {
   display: flex;
 }
 .row {
   flex-basis: 14%;
+  margin-right: 5px;
+}
+.row:last-child {
+  text-align: end;
+}
+.copy:hover {
+  color: #277ace;
+  cursor: pointer;
 }
 </style>

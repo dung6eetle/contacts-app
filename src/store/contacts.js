@@ -9,7 +9,7 @@ export default {
 
     //sorting
     currentSort: "",
-    // currentGender: "",
+    currentGender: "",
 
     //filters
     name: "",
@@ -22,34 +22,34 @@ export default {
       state.currentGender = payload;
     },
     setContacts(state, payload) {
-      console.log("state", state, payload);
       state.contacts = payload;
     },
     setProcessedResults(state, payload) {
       state.processedResults = payload;
     },
-
-    // sortByMale(state) {
-    //   state.currentGender = "male";
-    // },
-    // sortByFemale(state) {
-    //   state.currentGender = "female";
-    // },
-
+    setFilteredName(state, payload) {
+      state.name = payload;
+    },
+    // задаю пол
+    sortByMale(state) {
+      state.currentGender = "male";
+    },
+    sortByFemale(state) {
+      state.currentGender = "female";
+    },
+    //задаю сортировку
     sortByNameToTop(state) {
       state.currentSort = "top";
     },
     sortByNameToBottom(state) {
       state.currentSort = "bottom";
     },
-
-    setFilteredName(state, payload) {
-      console.log(payload, "payload");
-      // мы проверяем если пустая строка то вырубаем фильтр
-      state.name = payload;
-    },
+    // ресеты
     reset(state) {
       state.currentSort = "";
+    },
+    resetCurrentGender(state) {
+      state.currentGender = "";
     },
   },
   actions: {
@@ -60,7 +60,7 @@ export default {
           commit("setContacts", contacts.data.results);
         })
         .catch((e) => {
-          console.log("error get", e);
+          console.log("error", e);
         });
     },
   },
@@ -79,24 +79,6 @@ export default {
           b.name.first.localeCompare(a.name.first)
         );
       }
-      // if (state.currentGender === "male") {
-      //   console.log(
-      //     "1",
-      //     state.contacts.filter((contact) => {
-      //       console.log("contact.gender", contact.gender);
-      //       contact.gender === state.currentGender;
-      //     })
-      //   );
-      //   return state.contacts.filter((contact) => {
-      //     contact.gender === state.currentGender;
-      //   });
-      // }
-      // if (state.currentGender === "female") {
-      //   return state.contacts.filter((contact) => {
-      //     contact.gender === state.currentGender;
-      //   });
-      // }
-
       return state.contacts;
     },
     currentGender(state) {
@@ -108,9 +90,15 @@ export default {
     contacts(state) {
       return state.contacts;
     },
+    // геттер отфильтрованной коллекции
     processedResults(state, getters) {
       let results = getters.sortedResult;
-      // если есть фильтр то фильтруем результат и перезаписываем
+      // если есть фильтр то фильтрую результат и перезаписываю
+      if (state.currentGender) {
+        results = results.filter((contact) => {
+          return contact.gender === state.currentGender;
+        });
+      }
       if (state.name) {
         results = results.filter((contact) => {
           const fullName = getFullName({
@@ -118,10 +106,8 @@ export default {
             last: contact.name.last,
           });
           return fullName.toLowerCase().includes(getters.nameFilter);
-          // && appliedGender
         });
       }
-      // если добавлю еще фильтр то отфильтрую и по нему
       return results;
     },
   },

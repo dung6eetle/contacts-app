@@ -6,15 +6,16 @@
     <div class="row fullname">
       {{ getFullName(row.name) }}
     </div>
-    <div @click="copy(row)" class="row email">{{ row.email }}</div>
-    <div class="row phone">{{ row.phone }}</div>
+    <div @click="copy(row.email)" class="row email">{{ row.email }}</div>
+    <div @click="copy(row.phone)" class="row phone">{{ row.phone }}</div>
     <div class="row location">{{ row.location.country }}</div>
     <div class="row nationality">{{ row.nat }}</div>
   </div>
 </template>
 
 <script>
-import moment from "moment";
+import { getFullName } from "@/helpers/getFullName";
+import { getFullDate } from "@/helpers/getFullDate";
 
 export default {
   props: {
@@ -24,21 +25,14 @@ export default {
     },
   },
   methods: {
-    copy({ email }) {
-      this.$copyText(email).then(() => alert(`COPY: ${email}`));
+    copy(text) {
+      this.$copyText(text).then(() => alert(`COPY: ${text}`));
     },
     getFullName({ title, first, last }) {
-      return title + " " + first + " " + last;
+      return getFullName({ first, last }, title);
     },
     getFullDate({ date, age }) {
-      return (
-        moment(date).format("dddd") +
-        " " +
-        moment(date).format("DD/MM/YYYY hh:mm a") +
-        " " +
-        "Age:" +
-        age
-      );
+      return getFullDate({ date, age });
     },
   },
 };

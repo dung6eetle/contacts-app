@@ -13,7 +13,7 @@
           value="user"
           v-model="pickedRole"
         />
-        <label for="user">Юзер</label>
+        <label for="user">user</label>
       </div>
       <div class="wrapper">
         <input
@@ -23,11 +23,11 @@
           value="admin"
           v-model="pickedRole"
         />
-        <label for="admin">Админ</label>
+        <label for="admin">admin</label>
       </div>
       <div class="wrapper">
-        <router-link to="/contacts">
-          <div @click="setRole(pickedRole)">ВОЙТИ</div>
+        <router-link class="link" to="/contacts">
+          <button @click="setRole(pickedRole)">log in</button>
         </router-link>
       </div>
     </div>
@@ -52,19 +52,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .auth {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
 }
-.picture {
-}
 .controls {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 45px;
+  font-size: 3em;
   padding: 5px;
 }
 .wrapper {
@@ -80,5 +78,14 @@ export default {
 input,
 label {
   cursor: pointer;
+}
+.link {
+  text-decoration: none;
+}
+.link button {
+  color: #2c3e50;
+  width: 185px;
+  height: 50px;
+  font-size: 0.5em;
 }
 </style>

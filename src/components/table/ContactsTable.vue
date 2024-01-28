@@ -50,6 +50,9 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 5px 0px;
+  height: 50px;
 }
 
 p {

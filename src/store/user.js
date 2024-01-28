@@ -1,11 +1,10 @@
 export default {
   namespaced: true,
   state: {
-    role: "",
+    role: localStorage.getItem("role"),
   },
   mutations: {
     setRole(state, payload) {
-      console.log("localStorage", localStorage, payload);
       localStorage.setItem("role", payload);
       state.role = payload;
     },

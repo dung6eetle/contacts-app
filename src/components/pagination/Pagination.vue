@@ -28,6 +28,7 @@ export default {
 
 <style scoped>
 .pagination {
+  margin-top: 10px;
   display: flex;
 }
 .page {
@@ -37,7 +38,7 @@ export default {
   cursor: pointer;
 }
 .page:hover {
-  border: 2px solid #0000cd;
+  border: 1px solid #277ace;
 }
 .pageSelect {
   color: white;

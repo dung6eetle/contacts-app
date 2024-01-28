@@ -1,25 +1,27 @@
 <template>
   <div class="contacts-page">
-    <div v-if="true" class="controls">
+    <div class="controls">
       <button @click="sortTop" class="sorting">Aa-Zz</button>
       <button @click="sortBottom" class="sorting">Zz-Aa</button>
-      <!-- <button @click="sortMale" class="filter">Male</button> -->
-      <!-- <button @click="sortFemale" class="filter">Female</button> -->
+      <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
+    </div>
+    <div class="controls" v-if="isShowControls">
+      <button @click="sortMale" class="filter">Male</button>
+      <button @click="sortFemale" class="filter">Female</button>
       <input
         type="text"
         :value="nameFilter"
         @input="(e) => setFilteredName(e.target.value)"
-        placeholder="Searh By Name"
+        placeholder="Searh by Fullname"
       />
-      <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
     </div>
-    <ContactsTable :perPage="perPage" :pageNumber="pageNumber" :rows="rows" />
-    <Cards
+    <ContactsTable
       v-if="false"
       :perPage="perPage"
       :pageNumber="pageNumber"
       :rows="rows"
     />
+    <Cards v-else :perPage="perPage" :pageNumber="pageNumber" :rows="rows" />
     <Pagination
       @selectPage="selectPage"
       :pageNumber="pageNumber"
@@ -44,7 +46,7 @@ export default {
     ...mapGetters({
       nameFilter: "contacts/nameFilter",
       currentSort: "contacts/currentSort",
-      // currentGender: "contacts/currentGender",
+      currentGender: "contacts/currentGender",
       processedResults: "contacts/processedResults",
       role: "user/role",
     }),
@@ -73,24 +75,36 @@ export default {
     }),
     ...mapMutations({
       setFilteredName: "contacts/setFilteredName",
-      // sortByMale: "contacts/sortByMale",
-      // sortByFemale: "contacts/sortByFemale",
+      sortByMale: "contacts/sortByMale",
+      sortByFemale: "contacts/sortByFemale",
       sortByNameToTop: "contacts/sortByNameToTop",
       sortByNameToBottom: "contacts/sortByNameToBottom",
       reset: "contacts/reset",
+      resetCurrentGender: "contacts/resetCurrentGender",
     }),
     selectPage(page) {
       this.pageNumber = page;
     },
+    resetGender() {
+      this.resetCurrentGender();
+    },
     resetSort() {
       this.reset();
     },
-    // sortMale() {
-    //   this.sortByMale();
-    // },
-    // sortFemale() {
-    //   this.sortByFemale();
-    // },
+    sortMale() {
+      if (this.currentGender === "male") {
+        this.resetGender();
+        return;
+      }
+      this.sortByMale();
+    },
+    sortFemale() {
+      if (this.currentGender === "female") {
+        this.resetGender();
+        return;
+      }
+      this.sortByFemale();
+    },
     sortTop() {
       if (this.currentSort === "top") {
         this.resetSort();
@@ -118,11 +132,12 @@ export default {
   margin: 0 auto;
 }
 .controls {
-  max-width: 500px;
+  max-width: 300px;
   display: flex;
   flex-flow: row nowrap;
   grid-gap: 5px;
   justify-content: flex-start;
+  margin-bottom: 10px;
 }
 .sorting {
   border: 0.5px solid grey;
