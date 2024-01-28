@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     pageNumber: {
@@ -20,8 +22,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["contacts"]),
     pages() {
-      return Math.ceil(this.$store.state.contacts.length / 10);
+      return Math.ceil(this.contacts.length / 10);
     },
   },
 };

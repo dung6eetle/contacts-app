@@ -1,8 +1,8 @@
 <template>
   <div class="contacts-page">
     <div class="controls">
-      <span @click="sortByNameTop" class="sorting">Aa-Zz</span>
-      <span @click="sortByNameBottom" class="sorting">Zz-Aa</span>
+      <span @click="sortByNameToTop" class="sorting">Aa-Zz</span>
+      <span @click="sortByNameToBottom" class="sorting">Zz-Aa</span>
       <input type="text" v-model="name" placeholder="Searh By Name" />
       <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
     </div>
@@ -47,12 +47,6 @@ export default {
   methods: {
     ...mapActions(["getContacts"]),
     ...mapMutations(["sortByNameToTop", "sortByNameToBottom"]),
-    sortByNameBottom() {
-      this.sortByNameToBottom();
-    },
-    sortByNameTop() {
-      this.sortByNameToTop();
-    },
     selectPage(page) {
       this.pageNumber = page;
     },
