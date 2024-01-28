@@ -5,14 +5,15 @@ export default {
   },
   mutations: {
     setRole(state, payload) {
+      console.log("localStorage", localStorage, payload);
       localStorage.setItem("role", payload);
       state.role = payload;
     },
   },
   actions: {},
   getters: {
-    user(state) {
-      return state.user;
+    role(state) {
+      return state.role;
     },
   },
 };

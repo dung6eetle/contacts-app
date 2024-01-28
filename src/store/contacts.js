@@ -9,13 +9,17 @@ export default {
 
     //sorting
     currentSort: "",
-    //filters
+    // currentGender: "",
 
+    //filters
     name: "",
   },
   mutations: {
     setCurrentSort(state, payload) {
       state.currentSort = payload;
+    },
+    setCurrentGender(state, payload) {
+      state.currentGender = payload;
     },
     setContacts(state, payload) {
       console.log("state", state, payload);
@@ -24,57 +28,35 @@ export default {
     setProcessedResults(state, payload) {
       state.processedResults = payload;
     },
+
+    // sortByMale(state) {
+    //   state.currentGender = "male";
+    // },
+    // sortByFemale(state) {
+    //   state.currentGender = "female";
+    // },
+
     sortByNameToTop(state) {
-      // вынести сортировку в хелпер
       state.currentSort = "top";
-      // state.processedResults = state.contacts.toSorted((a, b) =>
-      //   a.name.first.localeCompare(b.name.first)
-      // );
     },
     sortByNameToBottom(state) {
-      // вынести сортировку в хелпер
       state.currentSort = "bottom";
-
-      // state.processedResults = state.contacts.toSorted((a, b) =>
-      //   b.name.first.localeCompare(a.name.first)
-      // );
     },
+
     setFilteredName(state, payload) {
       console.log(payload, "payload");
       // мы проверяем если пустая строка то вырубаем фильтр
-
       state.name = payload;
     },
     reset(state) {
       state.currentSort = "";
-
-      // state.processedResults = state.contacts;
     },
   },
   actions: {
-    // filterByName({ getters, commit }, name) {
-    //   if (!name) {
-    //     commit("setActiveFilter", false);
-    //     return;
-    //   }
-
-    //   const filtered = getters.sortedResult.filter((contact) => {
-    //     const fullName = getFullName({
-    //       first: contact.name.first,
-    //       last: contact.name.last,
-    //     });
-    //     return fullName.includes(name);
-    //   });
-
-    //   console.log("filtered", filtered);
-    //   commit("setProcessedResults", filtered);
-    //   commit("setActiveFilter", true);
-    // },
     getContacts({ commit }) {
       axios
         .get("https://randomuser.me/api/?results=200")
         .then((contacts) => {
-          // commit("setProcessedResults", contacts.data.results);
           commit("setContacts", contacts.data.results);
         })
         .catch((e) => {
@@ -83,10 +65,6 @@ export default {
     },
   },
   getters: {
-    // isFilterActive(state) {
-    //   console.log("state name", state.isFilterActive);
-    //   return Boolean(state.name);
-    // },
     nameFilter(state) {
       return state.name;
     },
@@ -101,7 +79,28 @@ export default {
           b.name.first.localeCompare(a.name.first)
         );
       }
+      // if (state.currentGender === "male") {
+      //   console.log(
+      //     "1",
+      //     state.contacts.filter((contact) => {
+      //       console.log("contact.gender", contact.gender);
+      //       contact.gender === state.currentGender;
+      //     })
+      //   );
+      //   return state.contacts.filter((contact) => {
+      //     contact.gender === state.currentGender;
+      //   });
+      // }
+      // if (state.currentGender === "female") {
+      //   return state.contacts.filter((contact) => {
+      //     contact.gender === state.currentGender;
+      //   });
+      // }
+
       return state.contacts;
+    },
+    currentGender(state) {
+      return state.currentGender;
     },
     currentSort(state) {
       return state.currentSort;
@@ -118,7 +117,7 @@ export default {
             first: contact.name.first,
             last: contact.name.last,
           });
-          return fullName.includes(getters.nameFilter);
+          return fullName.toLowerCase().includes(getters.nameFilter);
           // && appliedGender
         });
       }

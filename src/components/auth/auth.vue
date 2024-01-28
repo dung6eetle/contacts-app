@@ -27,7 +27,7 @@
       </div>
       <div class="wrapper">
         <router-link to="/contacts">
-          <div @click="saveRole">ВОЙТИ</div>
+          <div @click="setRole(pickedRole)">ВОЙТИ</div>
         </router-link>
       </div>
     </div>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "LogIn",
   data() {
@@ -43,9 +45,9 @@ export default {
     };
   },
   methods: {
-    saveRole() {
-      localStorage.setItem("role", this.pickedRole);
-    },
+    ...mapMutations({
+      setRole: "user/setRole",
+    }),
   },
 };
 </script>

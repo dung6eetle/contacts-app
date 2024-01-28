@@ -1,9 +1,10 @@
 <template>
   <div class="contacts-page">
-    <div class="controls">
+    <div v-if="true" class="controls">
       <button @click="sortTop" class="sorting">Aa-Zz</button>
       <button @click="sortBottom" class="sorting">Zz-Aa</button>
-
+      <!-- <button @click="sortMale" class="filter">Male</button> -->
+      <!-- <button @click="sortFemale" class="filter">Female</button> -->
       <input
         type="text"
         :value="nameFilter"
@@ -43,7 +44,9 @@ export default {
     ...mapGetters({
       nameFilter: "contacts/nameFilter",
       currentSort: "contacts/currentSort",
+      // currentGender: "contacts/currentGender",
       processedResults: "contacts/processedResults",
+      role: "user/role",
     }),
     rows() {
       const from = (this.pageNumber - 1) * this.perPage;
@@ -53,28 +56,25 @@ export default {
     pages() {
       return Math.ceil(this.processedResults.length / 10);
     },
+    isShowControls() {
+      return this.role === "admin";
+    },
   },
   data() {
     return {
       perPage: 10,
       pageNumber: 1,
-      name: "",
-      // currentSort: "",
+      isShowFilters: false,
     };
-  },
-  watch: {
-    name(next) {
-      console.log(next, "name");
-      // this.filterByName(next);
-    },
   },
   methods: {
     ...mapActions({
-      // filterByName: "contacts/filterByName",
       getContacts: "contacts/getContacts",
     }),
     ...mapMutations({
       setFilteredName: "contacts/setFilteredName",
+      // sortByMale: "contacts/sortByMale",
+      // sortByFemale: "contacts/sortByFemale",
       sortByNameToTop: "contacts/sortByNameToTop",
       sortByNameToBottom: "contacts/sortByNameToBottom",
       reset: "contacts/reset",
@@ -85,12 +85,17 @@ export default {
     resetSort() {
       this.reset();
     },
+    // sortMale() {
+    //   this.sortByMale();
+    // },
+    // sortFemale() {
+    //   this.sortByFemale();
+    // },
     sortTop() {
       if (this.currentSort === "top") {
         this.resetSort();
         return;
       }
-
       this.sortByNameToTop();
     },
     sortBottom() {
@@ -98,7 +103,6 @@ export default {
         this.resetSort();
         return;
       }
-
       this.sortByNameToBottom();
     },
   },
@@ -114,7 +118,7 @@ export default {
   margin: 0 auto;
 }
 .controls {
-  max-width: 300px;
+  max-width: 500px;
   display: flex;
   flex-flow: row nowrap;
   grid-gap: 5px;
