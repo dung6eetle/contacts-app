@@ -12,19 +12,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   props: {
     pageNumber: {
       type: Number,
       default: 1,
     },
-  },
-  computed: {
-    ...mapGetters(["contacts"]),
-    pages() {
-      return Math.ceil(this.contacts.length / 10);
+    pages: {
+      type: Number,
+      default: 1,
     },
   },
 };

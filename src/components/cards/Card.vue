@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   props: {
     row: {
@@ -30,9 +32,9 @@ export default {
     },
     getFullDate({ date, age }) {
       return (
-        this.moment(date).format("dddd") +
+        moment(date).format("dddd") +
         " " +
-        this.moment(date).format("DD/MM/YYYY hh:mm a") +
+        moment(date).format("DD/MM/YYYY hh:mm a") +
         " " +
         "Age:" +
         age

@@ -17,6 +17,9 @@
 </template>
 
 <script>
+import moment from "moment";
+import { getFullName } from "@/helpers/getFullName";
+
 export default {
   props: {
     row: {
@@ -25,18 +28,25 @@ export default {
     },
   },
   computed: {},
+
   methods: {
     copy({ email }) {
       this.$copyText(email).then(() => alert(`COPY: ${email}`));
     },
     getFullName({ title, first, last }) {
-      return title + " " + first + " " + last;
+      return getFullName(
+        {
+          first,
+          last,
+        },
+        title
+      );
     },
     getFullDate({ date, age }) {
       return (
-        this.moment(date).format("dddd") +
+        moment(date).format("dddd") +
         " " +
-        this.moment(date).format("DD/MM/YYYY hh:mm a") +
+        moment(date).format("DD/MM/YYYY hh:mm a") +
         " " +
         "Age:" +
         age
