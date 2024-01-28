@@ -1,8 +1,8 @@
 <template>
   <div class="contacts-page">
     <div class="controls">
-      <SortByName title="Aa-Zz" :sort="sortByNameTop" />
-      <SortByName title="Zz-Aa" :sort="sortByNameBottom" />
+      <span @click="sortByNameTop" class="sorting">Aa-Zz</span>
+      <span @click="sortByNameBottom" class="sorting">Zz-Aa</span>
       <input type="text" v-model="name" placeholder="Searh By Name" />
       <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
     </div>
@@ -13,22 +13,20 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import ContactsTable from "@/components/contactsTable/ContactsTable.vue";
+import ContactsTable from "@/components/table/ContactsTable.vue";
 import Pagination from "@/components/pagination/Pagination.vue";
-import SortByName from "@/components/sorting/SortByName.vue";
 
 export default {
   components: {
     ContactsTable,
     Pagination,
-    SortByName,
   },
   computed: {
-    ...mapGetters(["CONTACTS"]),
+    ...mapGetters(["contacts"]),
     rows() {
-      let from = (this.pageNumber - 1) * this.perPage;
-      let to = from + this.perPage;
-      return this.CONTACTS.slice(from, to);
+      const from = (this.pageNumber - 1) * this.perPage;
+      const to = from + this.perPage;
+      return this.contacts.slice(from, to);
     },
   },
   data() {
@@ -39,20 +37,20 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["GET_CONTACTS"]),
-    ...mapMutations(["SORT_BY_NAME_TO_TOP", "SORT_BY_NAME_TO_BOTTOM"]),
+    ...mapActions(["getContacts"]),
+    ...mapMutations(["sortByNameToTop", "sortByNameToBottom"]),
     sortByNameBottom() {
-      this.SORT_BY_NAME_TO_BOTTOM();
+      this.sortByNameToBottom();
     },
     sortByNameTop() {
-      this.SORT_BY_NAME_TO_TOP();
+      this.sortByNameToTop();
     },
     selectPage(page) {
       this.pageNumber = page;
     },
   },
   mounted() {
-    this.GET_CONTACTS();
+    this.getContacts();
   },
 };
 </script>
@@ -68,5 +66,12 @@ export default {
   flex-flow: row nowrap;
   grid-gap: 5px;
   justify-content: flex-start;
+}
+.sorting {
+  border: 0.5px solid grey;
+  cursor: pointer;
+  height: 20px;
+  font-size: 16px;
+  width: max-content;
 }
 </style>

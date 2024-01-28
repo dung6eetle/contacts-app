@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import AuthPage from "@/pages/authPage.vue";
-import ContactsPage from "@/pages/contactsPage.vue";
+import AuthPage from "@/pages/AuthPage.vue";
+import ContactsPage from "@/pages/ContactsPage.vue";
 
 Vue.use(VueRouter);
 

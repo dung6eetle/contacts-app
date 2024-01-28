@@ -41,15 +41,10 @@ export default {
       pickedRole: "user",
     };
   },
-
   methods: {
-    async saveRole() {
-      console.log("pick", this.pickedRole);
+    saveRole() {
       localStorage.setItem("role", this.pickedRole);
     },
-  },
-  created() {
-    // this.$store.dispatch("GET_CONTACTS");
   },
 };
 </script>
