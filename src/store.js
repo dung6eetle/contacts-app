@@ -20,7 +20,6 @@ let store = new Vuex.Store({
     sortByNameToBottom(state) {
       state.contacts.sort((a, b) => b.name.first.localeCompare(a.name.first));
     },
-    // должна быть кнопка скидывающая сортировку или можно просто заного коллекцию просить но это как то не оч подход
   },
   actions: {
     getContacts({ commit }) {
@@ -37,9 +36,6 @@ let store = new Vuex.Store({
   getters: {
     contacts(state) {
       return state.contacts;
-    },
-    processedResults(state) {
-      return state.processedResults;
     },
   },
 });

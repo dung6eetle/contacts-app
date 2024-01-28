@@ -36,16 +36,6 @@ export default {
   components: {
     ContactRow,
   },
-  data() {
-    return {};
-  },
-  computed: {
-    // rows() {
-    //   let from = (this.pageNumber - 1) * this.perPage;
-    //   let to = from + this.perPage;
-    //   return this.contacts.slice(from, to);
-    // },
-  },
 };
 </script>
 

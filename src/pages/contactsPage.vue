@@ -7,18 +7,26 @@
       <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
     </div>
     <ContactsTable :perPage="perPage" :pageNumber="pageNumber" :rows="rows" />
+    <Cards
+      v-if="false"
+      :perPage="perPage"
+      :pageNumber="pageNumber"
+      :rows="rows"
+    />
     <Pagination @selectPage="selectPage" :pageNumber="pageNumber" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import ContactsTable from "@/components/table/ContactsTable.vue";
-import Pagination from "@/components/pagination/Pagination.vue";
+import ContactsTable from "@/components/table/ContactsTable";
+import Cards from "@/components/cards/Cards";
+import Pagination from "@/components/pagination/Pagination";
 
 export default {
   components: {
     ContactsTable,
+    Cards,
     Pagination,
   },
   computed: {
