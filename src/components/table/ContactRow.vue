@@ -24,7 +24,11 @@ export default {
       default: () => ({}),
     },
   },
-  computed: {
+  computed: {},
+  methods: {
+    copy({ email }) {
+      this.$copyText(email).then(() => alert(`COPY: ${email}`));
+    },
     getFullName({ title, first, last }) {
       return title + " " + first + " " + last;
     },
@@ -37,11 +41,6 @@ export default {
         "Age:" +
         age
       );
-    },
-  },
-  methods: {
-    copy({ email }) {
-      this.$copyText(email).then(() => alert(`COPY: ${email}`));
     },
   },
 };
