@@ -1,4 +1,6 @@
-# vue2-contacts-app
+# vue2-contacts-app 
+##
+my node v12.22.12
 
 ## Project setup
 ```
