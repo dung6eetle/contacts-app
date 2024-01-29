@@ -6,61 +6,67 @@ export default {
   state: {
     //data
     contacts: [],
+    countries: [],
 
     //sorting
     currentSort: "",
-    currentGender: "",
 
     //filters
     name: "",
+    currentGender: "",
+    nationality: "",
   },
   mutations: {
     setCurrentSort(state, payload) {
       state.currentSort = payload;
     },
     setCurrentGender(state, payload) {
+      if (state.currentGender === payload) {
+        state.currentGender = "";
+        return;
+      }
       state.currentGender = payload;
+    },
+    setNat(state, payload) {
+      state.nationality = payload;
     },
     setContacts(state, payload) {
       state.contacts = payload;
     },
+
     setProcessedResults(state, payload) {
       state.processedResults = payload;
     },
     setFilteredName(state, payload) {
       state.name = payload;
     },
-    // задаю пол
-    sortByMale(state) {
-      state.currentGender = "male";
-    },
-    sortByFemale(state) {
-      state.currentGender = "female";
-    },
-    //задаю сортировку
+
     sortByNameToTop(state) {
       state.currentSort = "top";
     },
     sortByNameToBottom(state) {
       state.currentSort = "bottom";
     },
-    // ресеты
     reset(state) {
       state.currentSort = "";
     },
-    resetCurrentGender(state) {
-      state.currentGender = "";
-    },
   },
   actions: {
-    getContacts({ commit }) {
+    getContacts({ commit, state }) {
       axios
         .get("https://randomuser.me/api/?results=200")
         .then((contacts) => {
           commit("setContacts", contacts.data.results);
+          state.countries = contacts.data.results.reduce((acc, contact) => {
+            contact.nat;
+            if (!acc.includes(contact.nat)) {
+              acc.push(contact.nat);
+            }
+            return acc;
+          }, []);
         })
         .catch((e) => {
-          console.log("error", e);
+          console.error("error", e);
         });
     },
   },
@@ -87,6 +93,14 @@ export default {
     currentSort(state) {
       return state.currentSort;
     },
+
+    nationality(state) {
+      return state.nationality;
+    },
+    countries(state) {
+      return state.countries;
+    },
+
     contacts(state) {
       return state.contacts;
     },
@@ -94,6 +108,11 @@ export default {
     processedResults(state, getters) {
       let results = getters.sortedResult;
       // если есть фильтр то фильтрую результат и перезаписываю
+      if (state.nationality) {
+        results = results.filter((contacts) => {
+          return contacts.nat === state.nationality;
+        });
+      }
       if (state.currentGender) {
         results = results.filter((contact) => {
           return contact.gender === state.currentGender;
@@ -101,14 +120,49 @@ export default {
       }
       if (state.name) {
         results = results.filter((contact) => {
+          // исключил mr/misis из поиска тк поиск по гендеру присутствует
           const fullName = getFullName({
             first: contact.name.first,
             last: contact.name.last,
           });
-          return fullName.toLowerCase().includes(getters.nameFilter);
+          return fullName
+            .toLowerCase()
+            .includes(getters.nameFilter.toLowerCase());
         });
       }
       return results;
+    },
+    // геттер статистики
+    statistics(state) {
+      const collectionSize = state.contacts.length;
+      const maleCount = state.contacts.filter(
+        (contact) => contact.gender === "male"
+      ).length;
+      const femaleCount = state.contacts.filter(
+        (contact) => contact.gender === "female"
+      ).length;
+      const undecidedCount = state.contacts.filter(
+        (contact) => !contact.gender
+      ).length;
+      const moreCommonGender =
+        maleCount > femaleCount
+          ? "males"
+          : maleCount < femaleCount
+          ? "females"
+          : "поровну";
+      const nationalityCounts = state.contacts.reduce((counts, contact) => {
+        const nationality = contact.nat;
+        counts[nationality] = (counts[nationality] || 0) + 1;
+        return counts;
+      }, {});
+      return {
+        collectionSize,
+        maleCount,
+        femaleCount,
+        undecidedCount,
+        moreCommonGender,
+        nationalityCounts,
+      };
     },
   },
 };

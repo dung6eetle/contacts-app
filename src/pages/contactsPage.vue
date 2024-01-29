@@ -3,6 +3,9 @@
     <div class="controls">
       <button @click="sortTop" class="sorting">Aa-Zz</button>
       <button @click="sortBottom" class="sorting">Zz-Aa</button>
+      <button @click="getContacts">RELOAD</button>
+      <button @click="setVision()">Set vision</button>
+
       <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
     </div>
     <div class="controls" v-if="isShowControls">
@@ -14,9 +17,15 @@
         @input="(e) => setFilteredName(e.target.value)"
         placeholder="Searh by Fullname"
       />
+      <select @change="(e) => setNat(e.target.value)" :value="nationality">
+        <option label="Please choose" key="1"></option>
+        <option v-for="country in countries" :value="country" :key="country">
+          {{ country }}
+        </option>
+      </select>
     </div>
     <ContactsTable
-      v-if="false"
+      v-if="!isGrid"
       :perPage="perPage"
       :pageNumber="pageNumber"
       :rows="rows"
@@ -27,6 +36,30 @@
       :pageNumber="pageNumber"
       :pages="pages"
     />
+    <div class="statistics">
+      <div class="statistics-item">
+        Collection size: {{ statistics.collectionSize }}
+      </div>
+      <div class="statistics-item">
+        Males: {{ statistics.maleCount }}, Females:
+        {{ statistics.femaleCount }}, Netuda-Nesuda:
+        {{ statistics.undecidedCount }}
+      </div>
+      <div class="statistics-item">
+        More by gender: {{ statistics.moreCommonGender }}
+      </div>
+      <div class="statistics-item">
+        Contacts by nationality:
+        <ul>
+          <li
+            v-for="(count, nationality) in statistics.nationalityCounts"
+            :key="nationality"
+          >
+            {{ nationality }}: {{ count }}
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -44,11 +77,15 @@ export default {
   },
   computed: {
     ...mapGetters({
+      statistics: "contacts/statistics",
+      nationality: "contacts/nationality",
+      countries: "contacts/countries",
       nameFilter: "contacts/nameFilter",
       currentSort: "contacts/currentSort",
       currentGender: "contacts/currentGender",
       processedResults: "contacts/processedResults",
       role: "user/role",
+      isGrid: "user/isGrid",
     }),
     rows() {
       const from = (this.pageNumber - 1) * this.perPage;
@@ -61,12 +98,15 @@ export default {
     isShowControls() {
       return this.role === "admin";
     },
+    // isShowTable() {
+    //   console.log("is show table", this.isTable);
+    //   return this.isTable;
+    // },
   },
   data() {
     return {
       perPage: 10,
       pageNumber: 1,
-      isShowFilters: false,
     };
   },
   methods: {
@@ -74,14 +114,16 @@ export default {
       getContacts: "contacts/getContacts",
     }),
     ...mapMutations({
+      setVision: "user/setVision",
+      setCurrentGender: "contacts/setCurrentGender",
       setFilteredName: "contacts/setFilteredName",
-      sortByMale: "contacts/sortByMale",
-      sortByFemale: "contacts/sortByFemale",
+      setNat: "contacts/setNat",
       sortByNameToTop: "contacts/sortByNameToTop",
       sortByNameToBottom: "contacts/sortByNameToBottom",
       reset: "contacts/reset",
       resetCurrentGender: "contacts/resetCurrentGender",
     }),
+
     selectPage(page) {
       this.pageNumber = page;
     },
@@ -92,18 +134,14 @@ export default {
       this.reset();
     },
     sortMale() {
-      if (this.currentGender === "male") {
-        this.resetGender();
-        return;
-      }
-      this.sortByMale();
+      this.setCurrentGender("male");
     },
     sortFemale() {
-      if (this.currentGender === "female") {
-        this.resetGender();
-        return;
-      }
-      this.sortByFemale();
+      // if (this.currentGender === "female") {
+      //   this.resetGender();
+      //   return;
+      // }
+      this.setCurrentGender("female");
     },
     sortTop() {
       if (this.currentSort === "top") {
@@ -128,11 +166,11 @@ export default {
 
 <style scoped>
 .contacts-page {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 .controls {
-  max-width: 300px;
+  max-width: 400px;
   display: flex;
   flex-flow: row nowrap;
   grid-gap: 5px;
@@ -145,5 +183,10 @@ export default {
   height: 20px;
   font-size: 16px;
   width: max-content;
+}
+.statistics {
+  margin-top: 30px;
+  padding: 15px 15px;
+  border-top: 2px solid grey;
 }
 </style>

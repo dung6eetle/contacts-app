@@ -30,14 +30,11 @@ export default {
 
 <style scoped>
 .cards {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
   gap: 1.5rem;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 2vh auto;
 }
 </style>
