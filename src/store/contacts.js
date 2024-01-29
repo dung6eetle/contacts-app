@@ -149,7 +149,7 @@ export default {
           ? "males"
           : maleCount < femaleCount
           ? "females"
-          : "поровну";
+          : "equally";
       const nationalityCounts = state.contacts.reduce((counts, contact) => {
         const nationality = contact.nat;
         counts[nationality] = (counts[nationality] || 0) + 1;

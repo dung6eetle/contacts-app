@@ -5,8 +5,6 @@
       <button @click="sortBottom" class="sorting">Zz-Aa</button>
       <button @click="getContacts">RELOAD</button>
       <button @click="setVision()">Set vision</button>
-
-      <!-- <ModeSet/> тут будет контрол ТАБЛА/ПЛИТКА свитч или buttons -->
     </div>
     <div class="controls" v-if="isShowControls">
       <button @click="sortMale" class="filter">Male</button>
@@ -37,18 +35,14 @@
       :pages="pages"
     />
     <div class="statistics">
-      <div class="statistics-item">
-        Collection size: {{ statistics.collectionSize }}
-      </div>
-      <div class="statistics-item">
+      <div>Collection size: {{ statistics.collectionSize }}</div>
+      <div>
         Males: {{ statistics.maleCount }}, Females:
         {{ statistics.femaleCount }}, Netuda-Nesuda:
         {{ statistics.undecidedCount }}
       </div>
-      <div class="statistics-item">
-        More by gender: {{ statistics.moreCommonGender }}
-      </div>
-      <div class="statistics-item">
+      <div>More by gender: {{ statistics.moreCommonGender }}</div>
+      <div>
         Contacts by nationality:
         <ul>
           <li
@@ -98,10 +92,6 @@ export default {
     isShowControls() {
       return this.role === "admin";
     },
-    // isShowTable() {
-    //   console.log("is show table", this.isTable);
-    //   return this.isTable;
-    // },
   },
   data() {
     return {
@@ -137,10 +127,6 @@ export default {
       this.setCurrentGender("male");
     },
     sortFemale() {
-      // if (this.currentGender === "female") {
-      //   this.resetGender();
-      //   return;
-      // }
       this.setCurrentGender("female");
     },
     sortTop() {
