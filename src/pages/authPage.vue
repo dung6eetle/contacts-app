@@ -1,6 +1,5 @@
 <template>
   <Auth />
-  <!-- вынести -->
 </template>
 
 <script>
