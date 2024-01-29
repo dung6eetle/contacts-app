@@ -19,7 +19,6 @@ export default {
       }
     },
   },
-  actions: {},
   getters: {
     role(state) {
       return state.role;

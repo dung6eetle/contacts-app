@@ -4,7 +4,6 @@
       <img alt="auth" src="./../../assets/logo-auth.png" />
     </div>
     <div class="controls">
-      <!-- вынести  -->
       <div class="wrapper">
         <input
           class="radio"
