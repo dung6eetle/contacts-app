@@ -15,8 +15,8 @@
       :countries="countries"
       @setFilteredName="setFilteredName"
       @setNat="setNat"
-      @filtredMale="filtredMale"
-      @filtredFemale="filtredFemale"
+      @filterByMale="filterByMale"
+      @filterByFemale="filterByFemale"
     />
     <Table
       v-if="!isGrid"
@@ -106,10 +106,10 @@ export default {
     resetSort() {
       this.reset();
     },
-    filtredMale() {
+    filterByMale() {
       this.setCurrentGender("male");
     },
-    filtredFemale() {
+    filterByFemale() {
       this.setCurrentGender("female");
     },
     sortTop() {

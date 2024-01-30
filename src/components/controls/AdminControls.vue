@@ -1,12 +1,6 @@
 <template>
   <div class="controls">
     <ToggleButtons :type="currentGender" :configs="filterGenderConfig" />
-    <input
-      type="text"
-      :value="nameFilter"
-      @input="(e) => $emit('setFilteredName', e.target.value)"
-      placeholder="Searh by Fullname"
-    />
     <Input
       placeholder="search..."
       :value="nameFilter"
@@ -50,12 +44,12 @@ export default {
         {
           type: "male",
           title: "male",
-          onClick: () => this.$emit("filtredMale"),
+          onClick: () => this.$emit("filterByMale"),
         },
         {
           type: "female",
           title: "female",
-          onClick: () => this.$emit("filtredFemale"),
+          onClick: () => this.$emit("filterByFemale"),
         },
       ];
     },

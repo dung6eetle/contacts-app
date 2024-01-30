@@ -38,25 +38,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* .contacts-table {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-} */
-
-/* .header {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 5px 0px;
-  height: 50px;
-} */
-
-/* p {
-  text-align: left;
-  flex-basis: 14%;
-} */
-</style>
