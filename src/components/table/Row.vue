@@ -1,19 +1,19 @@
 <template>
-  <div class="contact-row">
-    <div class="row">
+  <tr>
+    <td>
       <img :src="row.picture.medium" />
-    </div>
-    <div class="row">
-      {{ getFullName(row.name) }}
-    </div>
-    <div class="row">
-      {{ getFullDate(row.dob) }}
-    </div>
-    <div @click="copy(row.email)" class="row copy">{{ row.email }}</div>
-    <div @click="copy(row.phone)" class="row copy">{{ row.phone }}</div>
-    <div class="row">{{ row.location.country }}</div>
-    <div class="row">{{ row.nat }}</div>
-  </div>
+    </td>
+    <td>{{ getFullName(row.name) }}</td>
+    <td>{{ getFullDate(row.dob) }}</td>
+    <td class="row copy" @click="copyToClipboard(row.email)">
+      {{ row.email }}
+    </td>
+    <td @click="copyToClipboard(row.phone)" class="row copy">
+      {{ row.phone }}
+    </td>
+    <td>{{ row.location.country }}</td>
+    <td>{{ row.nat }}</td>
+  </tr>
 </template>
 
 <script>
@@ -28,7 +28,7 @@ export default {
     },
   },
   methods: {
-    copy(text) {
+    copyToClipboard(text) {
       this.$copyText(text).then(() => alert(`COPY: ${text}`));
     },
     getFullName({ title, first, last }) {

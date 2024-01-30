@@ -12,9 +12,17 @@ const routes = [
   },
   {
     path: "/contacts",
+    beforeEnter: beforeEnterContacts,
     component: ContactsPage,
   },
 ];
+function beforeEnterContacts(to, from, next) {
+  const hasRole = localStorage.getItem("role");
+  if (!hasRole) {
+    return next("/");
+  }
+  next();
+}
 
 export default new VueRouter({
   routes,

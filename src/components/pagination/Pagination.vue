@@ -1,10 +1,10 @@
 <template>
   <div class="pagination">
     <div
-      @click="$emit('selectPage', page)"
       v-for="page in pages"
-      :class="{ page: true, pageSelect: page === pageNumber }"
+      :class="getPageClasses(page)"
       :key="page"
+      @click="$emit('selectPage', page)"
     >
       {{ page }}
     </div>
@@ -21,6 +21,14 @@ export default {
     pages: {
       type: Number,
       default: 1,
+    },
+  },
+  methods: {
+    getPageClasses(page) {
+      return {
+        page: true,
+        pageSelect: page === this.pageNumber,
+      };
     },
   },
 };

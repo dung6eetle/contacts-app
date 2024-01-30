@@ -6,8 +6,12 @@
     <div class="row fullname">
       {{ getFullName(row.name) }}
     </div>
-    <div @click="copy(row.email)" class="row email">{{ row.email }}</div>
-    <div @click="copy(row.phone)" class="row phone">{{ row.phone }}</div>
+    <div @click="copyToClipboard(row.email)" class="row email">
+      {{ row.email }}
+    </div>
+    <div @click="copyToClipboard(row.phone)" class="row phone">
+      {{ row.phone }}
+    </div>
     <div class="row location">{{ row.location.country }}</div>
     <div class="row nationality">{{ row.nat }}</div>
   </div>
@@ -25,7 +29,7 @@ export default {
     },
   },
   methods: {
-    copy(text) {
+    copyToClipboard(text) {
       this.$copyText(text).then(() => alert(`COPY: ${text}`));
     },
     getFullName({ title, first, last }) {

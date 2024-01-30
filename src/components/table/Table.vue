@@ -1,22 +1,22 @@
 <template>
-  <div class="contacts-table">
-    <div class="header">
-      <h5>Avatar</h5>
-      <h5>Fullname</h5>
-      <h5>Birthday</h5>
-      <h5>Email</h5>
-      <h5>Phone</h5>
-      <h5>Location</h5>
-      <h5>Nationality</h5>
-    </div>
-    <div class="body">
-      <ContactRow v-for="row in rows" :key="row.cell" :row="row" />
-    </div>
-  </div>
+  <table class="contacts-table">
+    <thead>
+      <th>Avatar</th>
+      <th>Fullname</th>
+      <th>Birthday</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Location</th>
+      <th>Nationality</th>
+    </thead>
+    <tbody>
+      <Row v-for="row in rows" :key="row.cell" :row="row" />
+    </tbody>
+  </table>
 </template>
 
 <script>
-import ContactRow from "./ContactRow.vue";
+import Row from "./Row.vue";
 
 export default {
   props: {
@@ -34,29 +34,29 @@ export default {
     },
   },
   components: {
-    ContactRow,
+    Row,
   },
 };
 </script>
 
 <style scoped>
-.contacts-table {
+/* .contacts-table {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-}
+} */
 
-.header {
+/* .header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   margin-bottom: 10px;
   padding: 5px 0px;
   height: 50px;
-}
+} */
 
-p {
+/* p {
   text-align: left;
   flex-basis: 14%;
-}
+} */
 </style>

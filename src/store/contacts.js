@@ -1,5 +1,5 @@
-import axios from "axios";
 import { getFullName } from "@/helpers/getFullName";
+import { apiServiceInstance } from "@/services/api";
 
 export default {
   namespaced: true,
@@ -50,24 +50,25 @@ export default {
     reset(state) {
       state.currentSort = "";
     },
+    setCountries(state, payload) {
+      state.countries = payload.reduce((acc, contact) => {
+        contact.nat;
+        if (!acc.includes(contact.nat)) {
+          acc.push(contact.nat);
+        }
+        return acc;
+      }, []);
+    },
   },
   actions: {
-    getContacts({ commit, state }) {
-      axios
-        .get("https://randomuser.me/api/?results=200")
+    getContacts({ commit }) {
+      apiServiceInstance
+        .get(`/?results=200`)
         .then((contacts) => {
           commit("setContacts", contacts.data.results);
-          state.countries = contacts.data.results.reduce((acc, contact) => {
-            contact.nat;
-            if (!acc.includes(contact.nat)) {
-              acc.push(contact.nat);
-            }
-            return acc;
-          }, []);
+          commit("setCountries", contacts.data.results);
         })
-        .catch((e) => {
-          console.error("error", e);
-        });
+        .catch((e) => console.log("get contacts catch", e));
     },
   },
   getters: {

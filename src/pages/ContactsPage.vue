@@ -1,28 +1,24 @@
 <template>
   <div class="contacts-page">
-    <div class="controls">
-      <button @click="sortTop" class="sorting">Aa-Zz</button>
-      <button @click="sortBottom" class="sorting">Zz-Aa</button>
-      <button @click="getContacts">RELOAD</button>
-      <button @click="setVision()">Set vision</button>
-    </div>
-    <div class="controls" v-if="isShowControls">
-      <button @click="sortMale" class="filter">Male</button>
-      <button @click="sortFemale" class="filter">Female</button>
-      <input
-        type="text"
-        :value="nameFilter"
-        @input="(e) => setFilteredName(e.target.value)"
-        placeholder="Searh by Fullname"
-      />
-      <select @change="(e) => setNat(e.target.value)" :value="nationality">
-        <option label="Please choose" key="1"></option>
-        <option v-for="country in countries" :value="country" :key="country">
-          {{ country }}
-        </option>
-      </select>
-    </div>
-    <ContactsTable
+    <UserControls
+      :currentSort="currentSort"
+      @getContacts="getContacts"
+      @sortTop="sortTop"
+      @sortBottom="sortBottom"
+      @setVision="setVision"
+    />
+    <AdminControls
+      v-if="isShowControls"
+      :currentGender="currentGender"
+      :nameFilter="nameFilter"
+      :nationality="nationality"
+      :countries="countries"
+      @setFilteredName="setFilteredName"
+      @setNat="setNat"
+      @filtredMale="filtredMale"
+      @filtredFemale="filtredFemale"
+    />
+    <Table
       v-if="!isGrid"
       :perPage="perPage"
       :pageNumber="pageNumber"
@@ -30,48 +26,34 @@
     />
     <Cards v-else :perPage="perPage" :pageNumber="pageNumber" :rows="rows" />
     <Pagination
-      @selectPage="selectPage"
       :pageNumber="pageNumber"
       :pages="pages"
+      @selectPage="selectPage"
     />
-    <div class="statistics">
-      <div>Collection size: {{ statistics.collectionSize }}</div>
-      <div>
-        Males: {{ statistics.maleCount }}, Females:
-        {{ statistics.femaleCount }}, Netuda-Nesuda:
-        {{ statistics.undecidedCount }}
-      </div>
-      <div>More by gender: {{ statistics.moreCommonGender }}</div>
-      <div>
-        Contacts by nationality:
-        <ul>
-          <li
-            v-for="(count, nationality) in statistics.nationalityCounts"
-            :key="nationality"
-          >
-            {{ nationality }}: {{ count }}
-          </li>
-        </ul>
-      </div>
-    </div>
+    <Statistics />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import ContactsTable from "@/components/table/ContactsTable";
+import Table from "@/components/table/Table";
 import Cards from "@/components/cards/Cards";
 import Pagination from "@/components/pagination/Pagination";
+import Statistics from "@/components/statistics/Statistics";
+import UserControls from "@/components/controls/UserControls";
+import AdminControls from "@/components/controls/AdminControls";
 
 export default {
   components: {
-    ContactsTable,
+    Table,
     Cards,
     Pagination,
+    Statistics,
+    AdminControls,
+    UserControls,
   },
   computed: {
     ...mapGetters({
-      statistics: "contacts/statistics",
       nationality: "contacts/nationality",
       countries: "contacts/countries",
       nameFilter: "contacts/nameFilter",
@@ -81,6 +63,7 @@ export default {
       role: "user/role",
       isGrid: "user/isGrid",
     }),
+
     rows() {
       const from = (this.pageNumber - 1) * this.perPage;
       const to = from + this.perPage;
@@ -123,10 +106,10 @@ export default {
     resetSort() {
       this.reset();
     },
-    sortMale() {
+    filtredMale() {
       this.setCurrentGender("male");
     },
-    sortFemale() {
+    filtredFemale() {
       this.setCurrentGender("female");
     },
     sortTop() {
@@ -156,23 +139,11 @@ export default {
   margin: 0 auto;
 }
 .controls {
-  max-width: 400px;
+  max-width: 600px;
   display: flex;
   flex-flow: row nowrap;
   grid-gap: 5px;
   justify-content: flex-start;
   margin-bottom: 10px;
-}
-.sorting {
-  border: 0.5px solid grey;
-  cursor: pointer;
-  height: 20px;
-  font-size: 16px;
-  width: max-content;
-}
-.statistics {
-  margin-top: 30px;
-  padding: 15px 15px;
-  border-top: 2px solid grey;
 }
 </style>
