@@ -12,7 +12,7 @@
         @change="setRole"
       />
       <div class="wrapper">
-        <Button class="login" title="log In" @click="redirectToLogin" />
+        <Button class="login" title="log In" @click="redirectToContacts" />
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
     ...mapMutations({
       setRole: "user/setRole",
     }),
-    redirectToLogin() {
+    redirectToContacts() {
       this.$router.push("/contacts");
     },
   },
