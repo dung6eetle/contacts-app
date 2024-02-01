@@ -11,9 +11,7 @@
         :checked="currentRole === role"
         @change="setRole"
       />
-      <div class="wrapper">
-        <Button class="login" title="log In" @click="redirectToContacts" />
-      </div>
+      <Button class="login" title="log In" @click="redirectToContacts" />
     </div>
   </div>
 </template>
@@ -59,6 +57,7 @@ export default {
   justify-content: center;
   font-size: 3em;
   padding: 5px;
+  grid-gap: 10px;
 }
 .wrapper {
   display: flex;
@@ -73,10 +72,5 @@ export default {
 input,
 label {
   cursor: pointer;
-}
-.login {
-  color: #2c3e50;
-  font-size: 1em;
-  border: 0.5px solid #2c3e50;
 }
 </style>
