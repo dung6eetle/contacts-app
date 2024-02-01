@@ -12,7 +12,7 @@
         @change="setRole"
       />
       <div class="wrapper">
-        <router-link class="link" to="/contacts">log in </router-link>
+        <Button class="login" title="log In" @click="redirectToLogin" />
       </div>
     </div>
   </div>
@@ -21,24 +21,28 @@
 <script>
 import RadioInputField from "@/components/ui/RadioInputField.vue";
 import { mapMutations, mapGetters } from "vuex";
+import Button from "@/components/ui/Button";
 
 export default {
-  components: { RadioInputField },
+  components: { RadioInputField, Button },
   name: "LogIn",
   data() {
     return {
       roles: ["user", "admin"],
     };
   },
-  methods: {
-    ...mapMutations({
-      setRole: "user/setRole",
-    }),
-  },
   computed: {
     ...mapGetters({
       currentRole: "user/role",
     }),
+  },
+  methods: {
+    ...mapMutations({
+      setRole: "user/setRole",
+    }),
+    redirectToLogin() {
+      this.$router.push("/contacts");
+    },
   },
 };
 </script>
@@ -70,10 +74,8 @@ input,
 label {
   cursor: pointer;
 }
-.link {
-  text-decoration: none;
+.login {
   color: #2c3e50;
-
   font-size: 1em;
   border: 0.5px solid #2c3e50;
 }
